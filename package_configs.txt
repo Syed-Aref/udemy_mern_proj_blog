@@ -1,0 +1,7 @@
+npm i nodemon@2.0.19
+npm i express@4.18.2
+npm i mongoose@6.5.3
+npm i ejs@3.1.8
+npm i method-override@3.0.0
+
+http://localhost:3000 
