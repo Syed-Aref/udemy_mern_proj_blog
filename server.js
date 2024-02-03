@@ -5,6 +5,7 @@ require("dotenv").config();
 const express = require("express");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
+const methodOverride = require("method-override");
 
 // ------- Create instances if necessary ------- //
 const app = express();
@@ -23,6 +24,9 @@ app.set("view engine", "ejs");
 
 // Static files
 app.use(express.static(__dirname + "/public"));
+
+// Override HTTP methods (of routes) using query parameters
+app.use(methodOverride("_method"));
 
 // ------- Import error handler (MW) ------- //
 const globalErrHandler = require("./middlewares/globlErrHandler");
@@ -52,11 +56,13 @@ app.use(
 );
 
 
-//??????????????
-const methodOverride = require("method-override");
-app.use(methodOverride("_method"));
+//  Pass data from the server-side to the views (templates)
+// Import an useful function for the views
 const { truncatePost } = require("./utils/helper");
+
+// Make it availaby by app.locals
 app.locals.tuncatePost = truncatePost;
+
 app.use((req, res, next) => {
   console.log(req.session.userAuth + ' (line 60)');
   if (req.session.userAuth) {
